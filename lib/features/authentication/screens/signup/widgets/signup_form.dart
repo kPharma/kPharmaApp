@@ -1,3 +1,4 @@
+import 'package:kPharma/features/authentication/screens/signup/signup_view_model.dart';
 import 'package:kPharma/features/authentication/screens/signup/widgets/terms_conditions_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../verify_email.dart';
 class KSignupForm extends StatelessWidget {
   const KSignupForm({
     super.key,
+    required SignupViewModel viewModel,
   });
 
   @override
