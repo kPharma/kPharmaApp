@@ -2,28 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
-import '../../../../common/widgets/success_screen/success_screen.dart';
+import '../../../../data/repositories/authentication/authentication_repository.dart';
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
-import '../login/login.dart';
+import '../../controllers/verify_email_controller.dart';
 
 class VerifyEmailScreen extends StatelessWidget {
-  const VerifyEmailScreen({super.key});
+  const VerifyEmailScreen({super.key, this.email});
+
+  final String? email;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
     return Scaffold(
       /// Appbar close icon will first Logout the user & then redirect back to Login Screen()
       /// Reason: We will store the data when user enters the Register Button on Previous screen.
       /// Whenever the user opens the app, we will check if email is verified or not.
       /// If not verified we will always show this Verification screen.
-      appBar: KAppBar(actions: [
-        IconButton(
-            onPressed: () => Get.offAll(const LoginScreen()),
-            icon: const Icon(CupertinoIcons.clear))
-      ]),
+      appBar: KAppBar(
+        actions: [
+          IconButton(
+              onPressed: () => AuthenticationRepository.instance.logout(),
+              icon: const Icon(CupertinoIcons.clear))
+        ],
+      ),
       body: SingleChildScrollView(
         // Padding to Give Default Equal Space on all sides in all screens.
         child: Padding(
@@ -37,12 +42,12 @@ class VerifyEmailScreen extends StatelessWidget {
               ),
               const SizedBox(height: KSizes.spaceBtwSections),
 
-              /// Title & SubTitle
+              /// Title, Email & SubTitle
               Text(KTexts.confirmEmail,
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center),
               const SizedBox(height: KSizes.spaceBtwItems),
-              Text('rawa.priv@gmail.com',
+              Text(email ?? '',
                   style: Theme.of(context).textTheme.labelLarge,
                   textAlign: TextAlign.center),
               const SizedBox(height: KSizes.spaceBtwItems),
@@ -51,26 +56,22 @@ class VerifyEmailScreen extends StatelessWidget {
                   textAlign: TextAlign.center),
               const SizedBox(height: KSizes.spaceBtwSections),
 
-              /// Buttons
+              /// Continue Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () => Get.to(
-                          /// Success Screen
-                          () => SuccessScreen(
-                            image: KImages.staticSuccessIllustration,
-                            title: KTexts.yourAccountCreatedTitle,
-                            subTitle: KTexts.yourAccountCreatedSubTitle,
-                            onPressed: () => Get.to(() => const LoginScreen()),
-                          ),
-                        ),
+                    onPressed: () => controller.checkEmailVerificationStatus(),
                     child: const Text(KTexts.tContinue)),
               ),
               const SizedBox(height: KSizes.spaceBtwItems),
+
+              /// Resend Email, You can also add timer
               SizedBox(
-                  width: double.infinity,
-                  child: TextButton(
-                      onPressed: () {}, child: const Text(KTexts.resendEmail))),
+                width: double.infinity,
+                child: TextButton(
+                    onPressed: () => controller.sendEmailVerification(),
+                    child: const Text(KTexts.resendEmail)),
+              ),
             ],
           ),
         ),

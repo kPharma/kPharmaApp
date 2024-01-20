@@ -9,7 +9,14 @@ import '../custom_shapes/containers/rounded_container.dart';
 import '../images/t_circular_image.dart';
 import '../texts/t_brand_title_text_with_verified_icon.dart';
 
+/// A card widget representing a brand.
 class KBrandCard extends StatelessWidget {
+  /// Default constructor for the KBrandCard.
+  ///
+  /// Parameters:
+  ///   - brand: The brand model to display.
+  ///   - showBorder: A flag indicating whether to show a border around the card.
+  ///   - onTap: Callback function when the card is tapped.
   const KBrandCard({
     super.key,
     required this.brand,
@@ -24,6 +31,7 @@ class KBrandCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = KHelperFunctions.isDarkMode(context);
+
     return GestureDetector(
       onTap: onTap,
 
@@ -39,7 +47,7 @@ class KBrandCard extends StatelessWidget {
             Flexible(
               child: KCircularImage(
                 image: brand.image,
-                isNetworkImage: false,
+                isNetworkImage: true,
                 backgroundColor: Colors.transparent,
                 overlayColor: isDark ? KColors.white : KColors.black,
               ),

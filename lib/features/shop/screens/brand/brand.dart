@@ -1,3 +1,4 @@
+import 'package:kPharma/common/widgets/shimmers/vertical_product_shimmer.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
@@ -5,6 +6,7 @@ import '../../../../common/widgets/brands/brand_card.dart';
 import '../../../../common/widgets/products/sortable/sortable_products.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/sizes.dart';
+import '../../../../utils/helpers/cloud_helper_functions.dart';
 import '../../controllers/brand_controller.dart';
 import '../../models/brand_model.dart';
 
@@ -16,7 +18,6 @@ class BrandScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = BrandController.instance;
-    final brandProducts = controller.getBrandProducts(brand.id);
     return Scaffold(
       appBar: const KAppBar(showBackArrow: true, title: Text('Brand')),
       body: SingleChildScrollView(
@@ -31,7 +32,19 @@ class BrandScreen extends StatelessWidget {
               /// Sub Categories
               const KSectionHeading(title: 'Products', showActionButton: false),
               const SizedBox(height: KSizes.spaceBtwItems),
-              KSortableProducts(products: brandProducts)
+              FutureBuilder(
+                  future: controller.getBrandProducts(brand.id, -1),
+                  builder: (context, snapshot) {
+                    /// Handle Loader, No Record, OR Error Message
+                    const loader = KVerticalProductShimmer();
+                    final widget = KCloudHelperFunctions.checkMultiRecordState(
+                        snapshot: snapshot, loader: loader);
+                    if (widget != null) return widget;
+
+                    /// Record Found!
+                    final brandProducts = snapshot.data!;
+                    return KSortableProducts(products: brandProducts);
+                  })
             ],
           ),
         ),

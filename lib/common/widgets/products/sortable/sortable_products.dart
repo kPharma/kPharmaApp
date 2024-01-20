@@ -44,8 +44,8 @@ class KSortableProducts extends StatelessWidget {
         Obx(
           () => KGridLayout(
             itemCount: controller.products.length,
-            itemBuilder: (_, index) =>
-                KProductCardVertical(product: controller.products[index]),
+            itemBuilder: (_, index) => KProductCardVertical(
+                product: controller.products[index], isNetworkImage: true),
           ),
         ),
         SizedBox(

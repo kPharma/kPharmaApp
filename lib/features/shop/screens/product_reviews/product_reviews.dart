@@ -1,11 +1,11 @@
-import 'package:kPharma/features/shop/screens/product_reviews/widgets/progress_indicator_and_rating.dart';
-import 'package:kPharma/features/shop/screens/product_reviews/widgets/rating_star.dart';
-import 'package:kPharma/features/shop/screens/product_reviews/widgets/review_details_container.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/dummy_data.dart';
+import 'widgets/progress_indicator_and_rating.dart';
+import 'widgets/rating_star.dart';
+import 'widgets/review_details_container.dart';
 
 class ProductReviewsScreen extends StatelessWidget {
   const ProductReviewsScreen({super.key});

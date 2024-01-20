@@ -1,7 +1,3 @@
-import 'package:kPharma/features/shop/screens/product_detail/widgets/product_attributes.dart';
-import 'package:kPharma/features/shop/screens/product_detail/widgets/product_detail_image_slider.dart';
-import 'package:kPharma/features/shop/screens/product_detail/widgets/product_meta_data.dart';
-import 'package:kPharma/features/shop/screens/product_detail/widgets/rating_share_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -14,6 +10,10 @@ import '../../../../utils/device/device_utility.dart';
 import '../../models/product_model.dart';
 import '../checkout/checkout.dart';
 import '../product_reviews/product_reviews.dart';
+import 'widgets/product_attributes.dart';
+import 'widgets/product_detail_image_slider.dart';
+import 'widgets/product_meta_data.dart';
+import 'widgets/rating_share_widget.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({super.key, required this.product});
@@ -23,7 +23,6 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: KBottomAddToCart(product: product),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,9 +48,11 @@ class ProductDetailScreen extends StatelessWidget {
 
                   /// -- Attributes
                   // If Product has no variations do not show attributes as well.
-                  if (product.productVariations != null)
+                  if (product.productVariations != null &&
+                      product.productVariations!.isNotEmpty)
                     KProductAttributes(product: product),
-                  if (product.productVariations != null)
+                  if (product.productVariations != null &&
+                      product.productVariations!.isNotEmpty)
                     const SizedBox(height: KSizes.spaceBtwSections),
 
                   /// -- Checkout Button
@@ -104,6 +105,7 @@ class ProductDetailScreen extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: KBottomAddToCart(product: product),
     );
   }
 }

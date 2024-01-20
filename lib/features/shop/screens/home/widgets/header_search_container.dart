@@ -28,7 +28,7 @@ class KSearchContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final dark = KHelperFunctions.isDarkMode(context);
     return GestureDetector(
-      onTap: () => Get.to(() => const SearchScreen()),
+      onTap: () => Get.to(() => SearchScreen()),
       child: Padding(
         padding: padding,
         child: Container(

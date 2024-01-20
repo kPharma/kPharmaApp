@@ -1,11 +1,11 @@
-import 'package:kPharma/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../features/shop/controllers/cart_controller.dart';
+import '../../../../features/shop/controllers/product/cart_controller.dart';
 import '../../../../features/shop/screens/cart/cart.dart';
 import '../../../../utils/constants/colors.dart';
+import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 
 /// Custom widget for the cart counter icon
@@ -22,7 +22,7 @@ class KCartCounterIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Get an instance of the CartController
-    final controller = CartController.instance;
+    final controller = Get.put(CartController());
 
     // Check if the app is in dark mode
     final dark = KHelperFunctions.isDarkMode(context);
@@ -46,7 +46,7 @@ class KCartCounterIcon extends StatelessWidget {
             child: Center(
               child: Obx(
                 () => Text(
-                  controller.calculateTotalCartItems(),
+                  controller.noOfCartItems.value.toString(),
                   style: Theme.of(context).textTheme.labelLarge!.apply(
                         color: counterTextColor ??
                             (dark ? KColors.black : KColors.white),

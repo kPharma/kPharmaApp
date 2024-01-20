@@ -52,7 +52,7 @@ class KDeviceUtils {
     return kBottomNavigationBarHeight;
   }
 
-  static double geKAppBarHeight() {
+  static double getAppBarHeight() {
     return kToolbarHeight;
   }
 

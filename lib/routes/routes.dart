@@ -1,7 +1,6 @@
-
 // routes.dart
 
-class TRoutes {
+class KRoutes {
   static const home = '/';
   static const store = '/store';
   static const favourites = '/favourites';

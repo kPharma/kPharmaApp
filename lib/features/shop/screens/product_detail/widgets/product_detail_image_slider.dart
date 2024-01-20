@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:kPharma/features/shop/controllers/product/images_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../common/widgets/appbar/appbar.dart';
@@ -7,17 +9,18 @@ import '../../../../../common/widgets/products/favourite_icon/favourite_icon.dar
 import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/helpers/helper_functions.dart';
-import '../../../controllers/product_controller.dart';
 import '../../../models/product_model.dart';
 
 class KProducKImageslider extends StatelessWidget {
-  const KProducKImageslider({super.key, required this.product});
+  const KProducKImageslider(
+      {super.key, required this.product, this.isNetworkImage = true});
 
   final ProductModel product;
+  final bool isNetworkImage;
 
   @override
   Widget build(BuildContext context) {
-    final controller = ProductController.instance;
+    final controller = ImagesController.instance;
     final isDark = KHelperFunctions.isDarkMode(context);
     final images = controller.getAllProducKImages(product);
     return KCurvedEdgesWidget(
@@ -31,15 +34,29 @@ class KProducKImageslider extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(KSizes.defaultSpace * 2),
                 child: Center(
-                  child: Obx(() {
-                    final image = controller.selectedProductImage.value.isEmpty
-                        ? product.thumbnail
-                        : controller.selectedProductImage.value;
-                    return GestureDetector(
+                  child: Obx(
+                    () {
+                      final image =
+                          controller.selectedProductImage.value.isEmpty
+                              ? product.thumbnail
+                              : controller.selectedProductImage.value;
+                      return GestureDetector(
                         onTap: () => controller.showEnlargedImage(image),
-                        child: Image(
-                            image: AssetImage(image), fit: BoxFit.contain));
-                  }),
+                        child: isNetworkImage
+                            ? CachedNetworkImage(
+                                imageUrl: image,
+                                progressIndicatorBuilder:
+                                    (_, __, downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress,
+                                            color: KColors.primary),
+                                errorWidget: (_, __, ___) =>
+                                    const Icon(Icons.error),
+                              )
+                            : Image(image: AssetImage(image)),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -65,6 +82,7 @@ class KProducKImageslider extends StatelessWidget {
                             controller.selectedProductImage.value ==
                                 images[index];
                         return KRoundedImage(
+                          isNetworkImage: isNetworkImage,
                           width: 80,
                           fit: BoxFit.contain,
                           imageUrl: images[index],

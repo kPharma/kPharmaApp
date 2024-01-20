@@ -1,28 +1,34 @@
-import 'package:kPharma/features/authentication/screens/signup/signup_view_model.dart';
-import 'package:kPharma/features/authentication/screens/signup/widgets/terms_conditions_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
-import '../verify_email.dart';
+import '../../../../../utils/validators/validation.dart';
+import '../../../controllers/signup_controller.dart';
+import 'terms_conditions_checkbox.dart';
 
 class KSignupForm extends StatelessWidget {
   const KSignupForm({
     super.key,
-    required SignupViewModel viewModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignupController());
     return Form(
+      key: controller.signupFormKey,
       child: Column(
         children: [
+          const SizedBox(height: KSizes.spaceBtwSections),
+
           /// First & Last Name
           Row(
             children: [
               Expanded(
                 child: TextFormField(
+                  controller: controller.firstName,
+                  validator: (value) =>
+                      KValidator.validateEmptyText('First name', value),
                   expands: false,
                   decoration: const InputDecoration(
                       labelText: KTexts.firstName,
@@ -32,6 +38,9 @@ class KSignupForm extends StatelessWidget {
               const SizedBox(width: KSizes.spaceBtwInputFields),
               Expanded(
                 child: TextFormField(
+                  controller: controller.lastName,
+                  validator: (value) =>
+                      KValidator.validateEmptyText('Last name', value),
                   expands: false,
                   decoration: const InputDecoration(
                       labelText: KTexts.lastName,
@@ -44,6 +53,8 @@ class KSignupForm extends StatelessWidget {
 
           /// Username
           TextFormField(
+            controller: controller.username,
+            validator: KValidator.validateUsername,
             expands: false,
             decoration: const InputDecoration(
                 labelText: KTexts.username,
@@ -53,6 +64,8 @@ class KSignupForm extends StatelessWidget {
 
           /// Email
           TextFormField(
+            controller: controller.email,
+            validator: KValidator.validateEmail,
             decoration: const InputDecoration(
                 labelText: KTexts.email, prefixIcon: Icon(Iconsax.direct)),
           ),
@@ -60,18 +73,28 @@ class KSignupForm extends StatelessWidget {
 
           /// Phone Number
           TextFormField(
+            controller: controller.phoneNumber,
+            validator: KValidator.validatePhoneNumber,
             decoration: const InputDecoration(
                 labelText: KTexts.phoneNo, prefixIcon: Icon(Iconsax.call)),
           ),
           const SizedBox(height: KSizes.spaceBtwInputFields),
 
           /// Password
-          TextFormField(
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: KTexts.password,
-              prefixIcon: Icon(Iconsax.password_check),
-              suffixIcon: Icon(Iconsax.eye_slash),
+          Obx(
+            () => TextFormField(
+              controller: controller.password,
+              validator: KValidator.validatePassword,
+              obscureText: controller.hidePassword.value,
+              decoration: InputDecoration(
+                labelText: KTexts.password,
+                prefixIcon: const Icon(Iconsax.password_check),
+                suffixIcon: IconButton(
+                  onPressed: () => controller.hidePassword.value =
+                      !controller.hidePassword.value,
+                  icon: const Icon(Iconsax.eye_slash),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: KSizes.spaceBtwSections),
@@ -84,9 +107,8 @@ class KSignupForm extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.to(() => const VerifyEmailScreen()),
-              child: const Text(KTexts.createAccount),
-            ),
+                onPressed: () => controller.signup(),
+                child: const Text(KTexts.createAccount)),
           ),
         ],
       ),

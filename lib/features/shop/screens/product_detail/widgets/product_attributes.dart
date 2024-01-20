@@ -5,7 +5,7 @@ import '../../../../../common/widgets/texts/section_heading.dart';
 import '../../../../../common/widgets/texts/t_product_price_text.dart';
 import '../../../../../common/widgets/texts/t_product_title_text.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/product_controller.dart';
+import '../../../controllers/product/variation_controller.dart';
 import '../../../models/product_model.dart';
 
 class KProductAttributes extends StatelessWidget {
@@ -15,7 +15,8 @@ class KProductAttributes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ProductController.instance;
+    final controller = VariationController.instance;
+    controller.resetSelectedAttributes();
     return Obx(
       () => Column(
         children: [
@@ -40,8 +41,8 @@ class KProductAttributes extends StatelessWidget {
                             // Actual Price if sale price not null.
                             const KProductTitleText(
                                 title: 'Price : ', smallSize: true),
-                            if (controller.selectedVariation.value.salePrice !=
-                                null)
+                            if (controller.selectedVariation.value.salePrice >
+                                0)
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -62,8 +63,8 @@ class KProductAttributes extends StatelessWidget {
                             // Sale Price if sale price not null Else Simple Price.
                             KProductPriceText(
                               price: controller
-                                          .selectedVariation.value.salePrice !=
-                                      null
+                                          .selectedVariation.value.salePrice >
+                                      0
                                   ? controller.selectedVariation.value.salePrice
                                       .toString()
                                   : controller.selectedVariation.value.price

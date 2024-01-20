@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../../home_menu.dart';
 import '../../../../../utils/constants/sizes.dart';
 import '../../../../../utils/constants/text_strings.dart';
+import '../../../../../utils/validators/validation.dart';
+import '../../../controllers/login_in_controller.dart';
 import '../../password_configuration/forget_password.dart';
 import '../../signup/signup.dart';
 
@@ -15,13 +16,17 @@ class KLoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     return Form(
+      key: controller.loginFormKey,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: KSizes.spaceBtwSections),
         child: Column(
           children: [
             /// Email
             TextFormField(
+              controller: controller.email,
+              validator: KValidator.validateEmail,
               decoration: const InputDecoration(
                   prefixIcon: Icon(Iconsax.direct_right),
                   labelText: KTexts.email),
@@ -29,11 +34,21 @@ class KLoginForm extends StatelessWidget {
             const SizedBox(height: KSizes.spaceBtwInputFields),
 
             /// Password
-            TextFormField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Iconsax.password_check),
-                labelText: KTexts.password,
-                suffixIcon: Icon(Iconsax.eye_slash),
+            Obx(
+              () => TextFormField(
+                obscureText: controller.hidePassword.value,
+                controller: controller.password,
+                validator: (value) =>
+                    KValidator.validateEmptyText('Password', value),
+                decoration: InputDecoration(
+                  labelText: KTexts.password,
+                  prefixIcon: const Icon(Iconsax.password_check),
+                  suffixIcon: IconButton(
+                    onPressed: () => controller.hidePassword.value =
+                        !controller.hidePassword.value,
+                    icon: const Icon(Iconsax.eye_slash),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: KSizes.spaceBtwInputFields / 2),
@@ -44,15 +59,19 @@ class KLoginForm extends StatelessWidget {
               children: [
                 /// Remember Me
                 Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Checkbox(value: true, onChanged: (value) {}),
+                    Obx(() => Checkbox(
+                        value: controller.rememberMe.value,
+                        onChanged: (value) =>
+                            controller.rememberMe.value = value!)),
                     const Text(KTexts.rememberMe),
                   ],
                 ),
 
                 /// Forget Password
                 TextButton(
-                    onPressed: () => Get.to(() => const ForgetPassword()),
+                    onPressed: () => Get.to(() => const ForgetPasswordScreen()),
                     child: const Text(KTexts.forgetPassword)),
               ],
             ),
@@ -60,10 +79,11 @@ class KLoginForm extends StatelessWidget {
 
             /// Sign In Button
             SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () => Get.to(() => const HomeMenu()),
-                    child: const Text(KTexts.signIn))),
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () => controller.emailAndPasswordSignIn(),
+                  child: const Text(KTexts.signIn)),
+            ),
             const SizedBox(height: KSizes.spaceBtwItems),
 
             /// Create Account Button

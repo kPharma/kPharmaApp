@@ -4,12 +4,14 @@ import '../../../utils/constants/colors.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../custom_shapes/containers/circular_container.dart';
 
-/// -- Most of the Styling is already defined in the Utils -> Themes -> ChipTheme.dart
+/// A customized choice chip that can act like a radio button.
 class KChoiceChip extends StatelessWidget {
   /// Create a chip that acts like a radio button.
-  /// The label, selected, autofocus, and clipBehavior arguments must not be null.
-  /// The pressElevation and elevation must be null or non-negative.
-  /// Typically, pressElevation is greater than elevation.
+  ///
+  /// Parameters:
+  ///   - text: The label text for the chip.
+  ///   - selected: Whether the chip is currently selected.
+  ///   - onSelected: Callback function when the chip is selected.
   const KChoiceChip({
     super.key,
     required this.text,
@@ -24,6 +26,7 @@ class KChoiceChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Theme(
+      // Use a transparent canvas color to match the existing styling.
       data: Theme.of(context).copyWith(canvasColor: Colors.transparent),
       child: ChoiceChip(
         // Use this function to get Colors as a Chip
@@ -33,24 +36,22 @@ class KChoiceChip extends StatelessWidget {
                 height: 50,
                 backgroundColor: KHelperFunctions.getColor(text)!)
             : null,
-        label: KHelperFunctions.getColor(text) == null
-            ? Text(text)
-            : const SizedBox(),
         selected: selected,
         onSelected: onSelected,
-        labelPadding: KHelperFunctions.getColor(text) != null
-            ? const EdgeInsets.all(0)
-            : null,
-        padding: KHelperFunctions.getColor(text) != null
-            ? const EdgeInsets.all(0)
-            : null,
+        backgroundColor: KHelperFunctions.getColor(text),
+        labelStyle: TextStyle(color: selected ? KColors.white : null),
         shape: KHelperFunctions.getColor(text) != null
             ? const CircleBorder()
             : null,
-        backgroundColor: KHelperFunctions.getColor(text) != null
-            ? KHelperFunctions.getColor(text)!
+        label: KHelperFunctions.getColor(text) == null
+            ? Text(text)
+            : const SizedBox(),
+        padding: KHelperFunctions.getColor(text) != null
+            ? const EdgeInsets.all(0)
             : null,
-        labelStyle: TextStyle(color: selected ? KColors.white : null),
+        labelPadding: KHelperFunctions.getColor(text) != null
+            ? const EdgeInsets.all(0)
+            : null,
       ),
     );
   }

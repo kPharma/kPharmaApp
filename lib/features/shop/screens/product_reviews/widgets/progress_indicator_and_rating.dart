@@ -1,5 +1,6 @@
-import 'package:kPharma/features/shop/screens/product_reviews/widgets/rating_progress_indicator.dart';
 import 'package:flutter/material.dart';
+
+import 'rating_progress_indicator.dart';
 
 class KOverallProductRating extends StatelessWidget {
   const KOverallProductRating({

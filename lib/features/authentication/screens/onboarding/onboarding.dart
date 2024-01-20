@@ -1,13 +1,13 @@
-import 'package:kPharma/features/authentication/screens/onboarding/widgets/onboarding_dot_navigation.dart';
-import 'package:kPharma/features/authentication/screens/onboarding/widgets/onboarding_next_button.dart';
-import 'package:kPharma/features/authentication/screens/onboarding/widgets/onboarding_page.dart';
-import 'package:kPharma/features/authentication/screens/onboarding/widgets/onboarding_skip_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/text_strings.dart';
-import '../../controllers/onboarding/onboarding_controller.dart';
+import '../../controllers/onboarding_controller.dart';
+import 'widgets/onboarding_dot_navigation.dart';
+import 'widgets/onboarding_next_button.dart';
+import 'widgets/onboarding_page.dart';
+import 'widgets/onboarding_skip_button.dart';
 
 /// Onboarding screen to introduce users to the app.
 class OnBoardingScreen extends StatelessWidget {

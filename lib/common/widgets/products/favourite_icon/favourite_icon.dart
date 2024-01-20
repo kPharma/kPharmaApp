@@ -1,8 +1,8 @@
+import 'package:kPharma/features/shop/controllers/product/favourites_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../../../features/shop/controllers/product_controller.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../icons/t_circular_icon.dart';
 
@@ -20,7 +20,7 @@ class KFavouriteIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ProductController.instance;
+    final controller = Get.put(FavouritesController());
     return Obx(
       () => KCircularIcon(
         icon:

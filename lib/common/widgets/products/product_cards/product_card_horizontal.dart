@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
-import '../../../../features/shop/controllers/cart_controller.dart';
-import '../../../../features/shop/controllers/product_controller.dart';
+import '../../../../features/shop/controllers/product/product_controller.dart';
 import '../../../../features/shop/models/product_model.dart';
-import '../../../../features/shop/models/product_variation_model.dart';
 import '../../../../features/shop/screens/product_detail/product_detail.dart';
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/helpers/helper_functions.dart';
 import '../../custom_shapes/containers/rounded_container.dart';
+import '../../images/t_rounded_image.dart';
 import '../../texts/t_brand_title_text_with_verified_icon.dart';
 import '../../texts/t_product_price_text.dart';
 import '../../texts/t_product_title_text.dart';
 import '../favourite_icon/favourite_icon.dart';
+import '../product_cards/product_card_add_to_card_button.dart';
 
 class KProductCardHorizontal extends StatelessWidget {
-  const KProductCardHorizontal({super.key, required this.product});
+  const KProductCardHorizontal(
+      {super.key, required this.product, this.isNetworkImage = true});
 
   final ProductModel product;
+  final bool isNetworkImage;
 
   @override
   Widget build(BuildContext context) {
-    final cartController = CartController.instance;
     final salePercentage = ProductController.instance
         .calculateSalePercentage(product.price, product.salePrice);
     final isDark = KHelperFunctions.isDarkMode(context);
@@ -52,17 +52,11 @@ class KProductCardHorizontal extends StatelessWidget {
               child: Stack(
                 children: [
                   /// -- Thumbnail Image
-                  SizedBox(
-                    height: 120,
-                    width: 120,
-                    child: ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(KSizes.productImageRadius),
-                      child: Image(
-                          image: AssetImage(product.thumbnail),
-                          fit: BoxFit.contain),
-                    ),
-                  ),
+                  KRoundedImage(
+                      width: 120,
+                      height: 120,
+                      imageUrl: product.thumbnail,
+                      isNetworkImage: isNetworkImage),
 
                   /// -- Sale Tag
                   if (salePercentage != null)
@@ -134,9 +128,9 @@ class KProductCardHorizontal extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             /// Actual Price if sale price not null
-                            if (product.productVariations == null &&
-                                product.salePrice != null &&
-                                product.salePrice! > 0)
+                            if (product.productType ==
+                                    ProductType.single.toString() &&
+                                product.salePrice > 0)
                               Padding(
                                 padding: const EdgeInsets.only(left: KSizes.sm),
                                 child: Text(
@@ -162,54 +156,7 @@ class KProductCardHorizontal extends StatelessWidget {
                       ),
 
                       /// Add to cart
-                      GestureDetector(
-                        onTap: () {
-                          // If the product have variations then show the product Details for variation selection.
-                          // ELse add product to the cart.
-                          if (product.productVariations == null) {
-                            cartController.addSingleItemToCart(
-                                product, ProductVariationModel.empty());
-                          } else {
-                            Get.to(() => ProductDetailScreen(product: product));
-                          }
-                        },
-                        child: Obx(
-                          () {
-                            final productQuantityInCart = cartController
-                                .calculateSingleProductCartEntries(
-                                    product.id, '');
-
-                            return AnimatedContainer(
-                              curve: Curves.easeInOutCubicEmphasized,
-                              decoration: BoxDecoration(
-                                color: productQuantityInCart > 0
-                                    ? KColors.primary
-                                    : KColors.dark,
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(KSizes.cardRadiusMd),
-                                  bottomRight: Radius.circular(
-                                      KSizes.productImageRadius),
-                                ),
-                              ),
-                              duration: const Duration(milliseconds: 300),
-                              child: SizedBox(
-                                width: KSizes.iconLg * 1.2,
-                                height: KSizes.iconLg * 1.2,
-                                child: Center(
-                                  child: productQuantityInCart > 0
-                                      ? Text(productQuantityInCart.toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyLarge!
-                                              .apply(color: KColors.white))
-                                      : const Icon(Iconsax.add,
-                                          color: KColors.white),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+                      ProductCardAddToCartButton(product: product),
                     ],
                   ),
                 ],

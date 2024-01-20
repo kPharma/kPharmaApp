@@ -7,13 +7,17 @@ import '../../../../utils/constants/image_strings.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../../../utils/constants/text_strings.dart';
 import '../../../../utils/helpers/helper_functions.dart';
+import '../../controllers/forget_password_controller.dart';
 import '../login/login.dart';
 
-class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key, required this.email});
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(ForgetPasswordController());
     return Scaffold(
       /// Appbar to go back OR close all screens and Goto LoginScreen()
       appBar: KAppBar(
@@ -40,7 +44,7 @@ class ResetPassword extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center),
               const SizedBox(height: KSizes.spaceBtwItems),
-              Text('rawa.priv@gmail.com',
+              Text('mrtaimoorsikander@gmail.com',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.labelLarge),
               const SizedBox(height: KSizes.spaceBtwItems),
@@ -55,12 +59,15 @@ class ResetPassword extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () {}, child: const Text(KTexts.done))),
+                      onPressed: () => Get.offAll(() => const LoginScreen()),
+                      child: const Text(KTexts.done))),
               const SizedBox(height: KSizes.spaceBtwItems),
               SizedBox(
                   width: double.infinity,
                   child: TextButton(
-                      onPressed: () {}, child: const Text(KTexts.resendEmail))),
+                      onPressed: () =>
+                          controller.resendPasswordResetEmail(email),
+                      child: const Text(KTexts.resendEmail))),
             ],
           ),
         ),

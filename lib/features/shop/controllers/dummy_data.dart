@@ -20,26 +20,26 @@ class KDummyData {
   /// -- Banners
   static final List<BannerModel> banners = [
     BannerModel(
-        imageUrl: KImages.banner1, targetScreen: TRoutes.order, active: false),
+        imageUrl: KImages.banner1, targetScreen: KRoutes.order, active: false),
     BannerModel(
-        imageUrl: KImages.banner2, targetScreen: TRoutes.cart, active: true),
+        imageUrl: KImages.banner2, targetScreen: KRoutes.cart, active: true),
     BannerModel(
         imageUrl: KImages.banner3,
-        targetScreen: TRoutes.favourites,
+        targetScreen: KRoutes.favourites,
         active: true),
     BannerModel(
-        imageUrl: KImages.banner4, targetScreen: TRoutes.search, active: true),
+        imageUrl: KImages.banner4, targetScreen: KRoutes.search, active: true),
     BannerModel(
         imageUrl: KImages.banner5,
-        targetScreen: TRoutes.settings,
+        targetScreen: KRoutes.settings,
         active: true),
     BannerModel(
         imageUrl: KImages.banner6,
-        targetScreen: TRoutes.userAddress,
+        targetScreen: KRoutes.userAddress,
         active: true),
     BannerModel(
         imageUrl: KImages.banner8,
-        targetScreen: TRoutes.checkout,
+        targetScreen: KRoutes.checkout,
         active: false),
   ];
 

@@ -1,11 +1,11 @@
-import 'package:kPharma/features/shop/screens/product_reviews/widgets/rating_star.dart';
-import 'package:kPharma/utils/constants/colors.dart';
-import 'package:kPharma/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../../../../utils/constants/colors.dart';
 import '../../../../../utils/formatters/formatter.dart';
+import '../../../../../utils/helpers/helper_functions.dart';
 import '../../../models/product_review_model.dart';
+import 'rating_star.dart';
 
 class UserReviewCard extends StatelessWidget {
   const UserReviewCard({Key? key, required this.productReview})
@@ -79,7 +79,7 @@ class UserReviewCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("T's Store",
+                    const Text("kPharma Pharmacy",
                         style: TextStyle(
                             fontSize: 14.0, fontWeight: FontWeight.w500)),
                     Text(KFormatter.formatDate(productReview.companyTimestamp)),

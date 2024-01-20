@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,9 +8,16 @@ import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
 import '../custom_shapes/containers/rounded_container.dart';
+import '../shimmers/shimmer.dart';
 import 'brand_card.dart';
 
+/// A widget showcasing a brand with its top 3 product images.
 class KBrandShowcase extends StatelessWidget {
+  /// Default constructor for the KBrandShowcase.
+  ///
+  /// Parameters:
+  ///   - brand: The brand model to display.
+  ///   - images: The list of top 3 product images for the brand.
   const KBrandShowcase({super.key, required this.brand, required this.images});
 
   final BrandModel brand;
@@ -41,6 +49,7 @@ class KBrandShowcase extends StatelessWidget {
     );
   }
 
+  /// Widget to display a top product image for the brand.
   Widget brandTopProductImageWidget(String image, context) {
     return Expanded(
       child: KRoundedContainer(
@@ -50,7 +59,13 @@ class KBrandShowcase extends StatelessWidget {
         backgroundColor: KHelperFunctions.isDarkMode(context)
             ? KColors.darkerGrey
             : KColors.light,
-        child: Image(fit: BoxFit.contain, image: AssetImage(image)),
+        child: CachedNetworkImage(
+          fit: BoxFit.contain,
+          imageUrl: image,
+          progressIndicatorBuilder: (context, url, downloadProgress) =>
+              const KShimmerEffect(width: 100, height: 100),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
       ),
     );
   }

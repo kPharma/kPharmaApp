@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../../common/widgets/appbar/appbar.dart';
 import '../../../../common/widgets/brands/brand_card.dart';
 import '../../../../common/widgets/layouts/grid_layout.dart';
+import '../../../../common/widgets/shimmers/brands_shimmer.dart';
 import '../../../../common/widgets/texts/section_heading.dart';
 import '../../../../utils/constants/sizes.dart';
 import '../../controllers/brand_controller.dart';
@@ -15,7 +16,6 @@ class AllBrandsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = BrandController.instance;
-    final brands = controller.getAllBrands();
     return Scaffold(
       appBar: const KAppBar(showBackArrow: true, title: Text('Brand')),
       body: SingleChildScrollView(
@@ -28,16 +28,34 @@ class AllBrandsScreen extends StatelessWidget {
               const SizedBox(height: KSizes.spaceBtwItems),
 
               /// -- Brands
-              KGridLayout(
-                itemCount: brands.length,
-                mainAxisExtent: 80,
-                itemBuilder: (_, index) {
-                  final brand = brands[index];
-                  return KBrandCard(
-                    brand: brand,
-                    showBorder: true,
-                    onTap: () => Get.to(() => BrandScreen(brand: brand)),
-                  );
+              Obx(
+                () {
+                  // Check if categories are still loading
+                  if (controller.isLoading.value) return const KBrandsShimmer();
+
+                  // Check if there are no featured categories found
+                  if (controller.allBrands.isEmpty) {
+                    return Center(
+                        child: Text('No Data Found!',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .apply(color: Colors.white)));
+                  } else {
+                    /// Data Found
+                    return KGridLayout(
+                      itemCount: controller.allBrands.length,
+                      mainAxisExtent: 80,
+                      itemBuilder: (_, index) {
+                        final brand = controller.allBrands[index];
+                        return KBrandCard(
+                          brand: brand,
+                          showBorder: true,
+                          onTap: () => Get.to(() => BrandScreen(brand: brand)),
+                        );
+                      },
+                    );
+                  }
                 },
               ),
             ],

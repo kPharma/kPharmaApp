@@ -6,7 +6,9 @@
 /// Switch of Custom Brand-Text-Size Widget
 enum TexKSizes { small, medium, large }
 
-enum OrderStatus { processing, shipped, delivered }
+enum ProductType { single, variable }
+
+enum OrderStatus { pending, processing, shipped, delivered, cancelled }
 
 enum PaymentMethods {
   paypal,

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743654657798",
+    "project_id": "kpharma-7863a",
+    "storage_bucket": "kpharma-7863a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743654657798:android:a626b5b53437ffa36e5887",
+        "android_client_info": {
+          "package_name": "com.example.kPharma"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnDjITYg-KvaNrYzHUxhHaVAuxDl3xMX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

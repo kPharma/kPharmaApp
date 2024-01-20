@@ -3,7 +3,12 @@ import '../../../../../utils/constants/colors.dart';
 import '../curved_edges/curved_edges_widget.dart';
 import 'circular_container.dart';
 
+/// A container widget with a primary color background and curved edges.
 class KPrimaryHeaderContainer extends StatelessWidget {
+  /// Create a container with a primary color background and curved edges.
+  ///
+  /// Parameters:
+  ///   - child: The widget to be placed inside the container.
   const KPrimaryHeaderContainer({
     super.key,
     required this.child,

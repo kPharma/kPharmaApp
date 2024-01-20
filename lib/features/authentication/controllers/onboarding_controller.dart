@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-import '../../screens/login/login.dart';
+import '../screens/login/login.dart';
 
 class OnBoardingController extends GetxController {
   static OnBoardingController get instance => Get.find();
@@ -25,6 +26,9 @@ class OnBoardingController extends GetxController {
     // Here you can define your LocalStorage to set OnBoarding bool isFirstTime = false.
     // So, that where ever app launches, app will check if isFirstTime = true, show onBoarding else show Login or Dashboard.
     if (currentPageIndex.value == 2) {
+      final userStorage = GetStorage();
+      userStorage.write('isFirstTime', false);
+
       Get.to(() => const LoginScreen());
     } else {
       int page = currentPageIndex.value + 1;

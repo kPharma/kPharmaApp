@@ -19,22 +19,23 @@ import 'routes.dart';
 
 class AppRoutes {
   static final pages = [
-    GetPage(name: TRoutes.home, page: () => const HomeScreen()),
-    GetPage(name: TRoutes.store, page: () => const StoreScreen()),
-    GetPage(name: TRoutes.favourites, page: () => const FavouriteScreen()),
-    GetPage(name: TRoutes.settings, page: () => const SettingsScreen()),
-    GetPage(name: TRoutes.search, page: () => const SearchScreen()),
-    GetPage(name: TRoutes.productReviews, page: () => const ProductReviewsScreen()),
-    GetPage(name: TRoutes.order, page: () => const OrderScreen()),
-    GetPage(name: TRoutes.checkout, page: () => const CheckoutScreen()),
-    GetPage(name: TRoutes.cart, page: () => const CartScreen()),
-    GetPage(name: TRoutes.userProfile, page: () => const ProfileScreen()),
-    GetPage(name: TRoutes.userAddress, page: () => const UserAddressScreen()),
-    GetPage(name: TRoutes.signup, page: () => const SignupScreen()),
-    GetPage(name: TRoutes.verifyEmail, page: () => const VerifyEmailScreen()),
-    GetPage(name: TRoutes.signIn, page: () => const LoginScreen()),
-    GetPage(name: TRoutes.forgetPassword, page: () => const ForgetPassword()),
-    GetPage(name: TRoutes.onBoarding, page: () => const OnBoardingScreen()),
+    GetPage(name: KRoutes.home, page: () => const HomeScreen()),
+    GetPage(name: KRoutes.store, page: () => const StoreScreen()),
+    GetPage(name: KRoutes.favourites, page: () => const FavouriteScreen()),
+    GetPage(name: KRoutes.settings, page: () => const SettingsScreen()),
+    GetPage(name: KRoutes.search, page: () => SearchScreen()),
+    GetPage(
+        name: KRoutes.productReviews, page: () => const ProductReviewsScreen()),
+    GetPage(name: KRoutes.order, page: () => const OrderScreen()),
+    GetPage(name: KRoutes.checkout, page: () => const CheckoutScreen()),
+    GetPage(name: KRoutes.cart, page: () => const CartScreen()),
+    GetPage(name: KRoutes.userProfile, page: () => const ProfileScreen()),
+    GetPage(name: KRoutes.userAddress, page: () => const UserAddressScreen()),
+    GetPage(name: KRoutes.signup, page: () => const SignupScreen()),
+    GetPage(name: KRoutes.verifyEmail, page: () => const VerifyEmailScreen()),
+    GetPage(name: KRoutes.signIn, page: () => const LoginScreen()),
+    // GetPage(name: KRoutes.forgetPassword, page: () => const ForgetPassword()),
+    GetPage(name: KRoutes.onBoarding, page: () => const OnBoardingScreen()),
     // Add more GetPage entries as needed
   ];
 }
